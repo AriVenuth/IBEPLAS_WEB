@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Toaster } from "@/components/ui/sonner";
+import { Oswald } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const oswald = Oswald({
+    subsets: ['latin'],
+    display: 'swap',
+    variable: '--font-oswald', // Definimos uma variável CSS
+    weight: ['400', '700'],    // Escolha os pesos que vai usar
 });
 
 export const metadata: Metadata = {
@@ -23,11 +21,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+      <html lang="pt-BR" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+              className={`${oswald.variable} antialiased`}
       >
         {children}
+              <Toaster
+                  position="bottom-right"
+                  richColors
+                  closeButton
+              />
       </body>
     </html>
   );
