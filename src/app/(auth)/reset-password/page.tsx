@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { KeyRound, Loader2 } from "lucide-react";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 import { apiClient } from "@/lib/api";
 import { CardForm } from "@/components/templates/forms/card-form";
 

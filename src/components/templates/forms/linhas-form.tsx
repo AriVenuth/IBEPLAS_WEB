@@ -18,7 +18,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 import { Spinner } from "@/components/ui/spinner";
 import { validateImage } from "@/lib/validate-image";
 
@@ -157,8 +157,7 @@ export function LinhasForm() {
                                     type="file"
                                     accept="image/jpeg,image/jpg/image/png"
                                     onChange={handleImageChange}
-                                    ref={fileInputRef}
-                                    required
+                                        ref={fileInputRef}
                                     className="hidden"
                                 />
 

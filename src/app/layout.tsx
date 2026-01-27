@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Toaster } from "@/components/ui/sonner";
 import { Oswald } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/themes/theme-provider";
 import { ThemeToggle } from "@/components/themes/theme-toggle";
+import { ToastProvider } from "@/components/templates/ui/ToastProvider";
 
 const oswald = Oswald({
     subsets: ['latin'],
@@ -43,13 +43,9 @@ export default function RootLayout({
                         <ThemeToggle />
                     </div>
 
-                    {children}
-
-                    <Toaster
-                        position="bottom-right"
-                        richColors
-                    />
-
+                    <ToastProvider>
+                        {children}
+                    </ToastProvider>
                 </ThemeProvider>
             </body>
         </html>

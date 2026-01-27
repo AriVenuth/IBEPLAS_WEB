@@ -8,7 +8,7 @@ import { LogIn } from "lucide-react";
 import { CardForm } from "./card-form";
 import { ForgotPasswordDialog } from "./forgot-password-dialog";
 import { loginAction } from "@/actions/auth";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 export function LoginForm() {
 
