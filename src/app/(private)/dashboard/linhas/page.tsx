@@ -31,15 +31,16 @@ export default async function Page() {
             {listData && listData.length > 0 && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-4">
                     {listData.map(item => (
-                        <Card key={item.id} className="relative">
+                        <Card key={item.id} className="overflow-hidden">
                             {item.imagemUrl && (
-                                <div className="absolute inset-0 z-30 aspect-video bg-foreground/35">
+                                <div className="relative w-full aspect-4/3 bg-foreground/35">
                                     <Image
                                         src={item.imagemUrl}
                                         alt={item.nome}
                                         fill
                                         className="object-cover"
                                     />
+                                    <div className="absolute inset-0 z-10 bg-foreground/5" />
                                 </div>
                             )}
                             <CardHeader>

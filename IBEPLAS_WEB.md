@@ -78,3 +78,7 @@
 - next-themes
 - lucide-react (ícones)
 - sonner (toasts)
+
+## Imagens - medidas 
+- O tamanho ideal para imagens é 800X450
+- Exportar imagens no formato WebP com 80% de qualidade
