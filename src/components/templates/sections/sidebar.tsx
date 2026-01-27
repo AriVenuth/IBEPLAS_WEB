@@ -80,7 +80,7 @@ const LogoTitle = () => {
                     src="/assets/logos/logo-clean.png"
                     alt="Logo IBEPLAS"
                     width={160}
-                    height={64}
+                    height={60}
                 />
             </div>
 
@@ -89,7 +89,7 @@ const LogoTitle = () => {
                     src="/assets/logos/logo-clean-branco.png"
                     alt="Logo IBEPLAS"
                     width={160}
-                    height={64}
+                    height={60}
                 />
             </div>
         </>
@@ -100,7 +100,7 @@ export function Sidebar({ usuarioLogado }: SidebarProps) {
     return (
         <aside className="hidden lg:flex flex-col min-h-screen w-64 bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
 
-            <div className="border-b border-sidebar-border p-4">
+            <div className="border-b border-sidebar-border p-3.5">
                 <LogoTitle />
                 {usuarioLogado && (
                     <p className="text-sm text-center mt-1 truncate">Olá, {usuarioLogado.nome}</p>

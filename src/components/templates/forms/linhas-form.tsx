@@ -34,44 +34,59 @@ export function LinhasForm() {
 
     const handdleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setIsLoading(true);
 
-        if (!imageFile) {
-            toast.error("Por favor, selecione uma imagem.");
+        const formElement = e.currentTarget;
+        const formDataParaCaptura = new FormData(formElement);
+        const nome = formDataParaCaptura.get("nome") as string;
+
+        try {
+
+            if (!imageFile) {
+                toast.error("Por favor, selecione uma imagem.");
+                setIsLoading(false);
+                return;
+            }
+
+            const imageIsValid = await validateImage(imageFile, {
+                minW: 800, minH: 450, maxW: 1200, maxH: 720, maxMB: 5
+            });
+
+            if (!imageIsValid.valid) {
+                toast.error(imageIsValid.error || "Erro na validação da imagem.");
+                setImageFile(null);
+                setImagePreview(null);
+                setIsLoading(false);
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("nome", nome);
+            formData.append("file", imageFile);
+
+            setIsLoading(true);
+
+            const result = await createLinhaAction(formData);
+
             setIsLoading(false);
-            return;
-        }
 
-        const imageIsValid = await validateImage(imageFile, {
-            minW: 800, minH: 450, maxW: 1200, maxH: 720, maxMB: 5
-        });
+            if (result.success) {
+                toast.success(result.message || "Linha criada com sucesso!");
+                setOpen(false);
+                router.refresh();
+                return;
+            } else {
+                toast.error(result.error || "Erro ao criar linha.");
+                return;
+            }
+        } catch (error) {
 
-        if (!imageIsValid.valid) {
-            toast.error(imageIsValid.error || "Erro na validação da imagem.");
             setIsLoading(false);
-            return;
+            setImageFile(null);
+            setImagePreview(null);
+            console.log(error);
+            toast.error("Erro ao criar linha. Tente novamente mais tarde.");
         }
 
-        const formeElement = e.currentTarget;
-        const nome = (formeElement.elements.namedItem("name") as HTMLInputElement)?.value;
-
-        const formData = new FormData();
-        formData.append("name", nome);
-        formData.append("image", imageFile);
-
-        const result = await createLinhaAction(formData);
-
-        setIsLoading(false);
-
-        if (result.success) {
-            toast.success(result.message || "Linha criada com sucesso!");
-            setOpen(false);
-            router.refresh();
-            return;
-        } else {
-            toast.error(result.error || "Erro ao criar linha.");
-            return;
-        }
     }
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,10 +129,10 @@ export function LinhasForm() {
 
                 <form onSubmit={handdleSubmit} className="space-y-4">
                     <div className="space-y-1">
-                        <Label htmlFor="name">Nome</Label>
+                        <Label htmlFor="nome">Nome</Label>
                         <Input
-                            id="name"
-                            name="name"
+                            id="nome"
+                            name="nome"
                             required
                             placeholder="Nome da linha"
                             className="bg-background text-foreground"

@@ -9,6 +9,7 @@ import { Linha } from "@/models/linhas-types";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FilePenLine, Trash } from "lucide-react";
+import { env } from "@/config/env";
 
 export const metadata: Metadata = {
     title: 'Linhas',
@@ -31,11 +32,11 @@ export default async function Page() {
             {listData && listData.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-4">
                     {listData.map(item => (
-                        <Card key={item.id} className="overflow-hidden">
+                        <Card key={item.id} className="overflow-hidden pt-0">
                             {item.imagemUrl && (
-                                <div className="relative w-full aspect-4/3 bg-foreground/35">
+                                <div className="relative w-full aspect-video bg-foreground/35">
                                     <Image
-                                        src={item.imagemUrl}
+                                        src={`${env.imagesAPIUrl}${item.imagemUrl}`}
                                         alt={item.nome}
                                         fill
                                         className="object-cover"
@@ -43,7 +44,7 @@ export default async function Page() {
                                     <div className="absolute inset-0 z-10 bg-foreground/5" />
                                 </div>
                             )}
-                            <CardHeader>
+                            <CardHeader className="">
                                 <CardTitle>{item.nome}</CardTitle>
                             </CardHeader>
                             <CardFooter className="flex gap-1 justify-end">

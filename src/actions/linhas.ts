@@ -18,7 +18,7 @@ export async function createLinhaAction(formData: FormData): Promise<ActionState
 
         await apiClient("/linhas", {
             method: "POST",
-            body: JSON.stringify(formData),
+            body: formData,
             token: token,
         });
 
@@ -26,6 +26,8 @@ export async function createLinhaAction(formData: FormData): Promise<ActionState
 
 
     } catch (error) {
+
+        console.log(error);
 
         if (error instanceof Error) {
             return { success: false, error: error.message };
