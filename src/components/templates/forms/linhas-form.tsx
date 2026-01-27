@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
+import { validateImage } from "@/lib/validate-image";
 
 export function LinhasForm() {
 
@@ -37,6 +38,16 @@ export function LinhasForm() {
 
         if (!imageFile) {
             toast.error("Por favor, selecione uma imagem.");
+            setIsLoading(false);
+            return;
+        }
+
+        const imageIsValid = await validateImage(imageFile, {
+            minW: 800, minH: 450, maxW: 1200, maxH: 720, maxMB: 5
+        });
+
+        if (!imageIsValid.valid) {
+            toast.error(imageIsValid.error || "Erro na validação da imagem.");
             setIsLoading(false);
             return;
         }

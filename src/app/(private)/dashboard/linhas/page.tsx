@@ -28,7 +28,7 @@ export default async function Page() {
                 subTitle="Gerencie as linhas dos produtos aqui."
                 actions={<LinhasForm />}
             />
-            {listData && listData.length > 0 && (
+            {listData && listData.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-4">
                     {listData.map(item => (
                         <Card key={item.id} className="overflow-hidden">
@@ -48,22 +48,26 @@ export default async function Page() {
                             </CardHeader>
                             <CardFooter className="flex gap-1 justify-end">
                                 <Button
-                                    variant="outline"
+                                    variant="default"
                                     title="Editar esse registro"
-                                    className="rounded-full h-8 w-8 p-0"
+                                    className="rounded-full h-6 w-6 p-0"
                                 >
                                     <FilePenLine className="w-4 h-4" />
                                 </Button>
                                 <Button
-                                    variant="outline"
+                                    variant="destructive"
                                     title="Excluir esse registro"
-                                    className="rounded-full h-8 w-8 p-0"
+                                    className="rounded-full h-6 w-6 p-0"
                                 >
                                     <Trash className="w-4 h-4" />
                                 </Button>
                             </CardFooter>
                         </Card>
                     ))}
+                </div>
+            ) : (
+                <div className="text-centerw-full text-center">
+                    <p className="text-2xl lg:text-3xl">Nenhum registro encontrado.</p>
                 </div>
             )}
         </DivSection>
