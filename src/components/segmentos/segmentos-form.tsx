@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useTransition } from "react";
 import Image from "next/image";
 import { Trash, Upload, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -33,6 +33,7 @@ export function SegmentosForm({ model, open: externalOpen, setOpen: setExternalO
 
     const router = useRouter();
 
+    const [isPending, startTransition] = useTransition();
     const [internalOpen, setInternalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [imagePreview, setImagePreview] = useState<string | null>(
@@ -94,9 +95,14 @@ export function SegmentosForm({ model, open: externalOpen, setOpen: setExternalO
                 : await createSegmentoAction(formData);
 
             if (result.success) {
+
                 toast.success(result.message);
                 setOpen(false);
-                router.refresh();
+
+                startTransition(() => {
+                    router.refresh();
+                });
+
             } else {
                 toast.error(result.error);
             }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useTransition } from "react";
 import Image from "next/image";
 import { Trash, Upload, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -33,6 +33,7 @@ export function LinhasForm({ linha, open: externalOpen, setOpen: setExternalOpen
 
     const router = useRouter();
 
+    const [isPending, startTransition] = useTransition();
     const [internalOpen, setInternalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [imagePreview, setImagePreview] = useState<string | null>(
@@ -97,9 +98,15 @@ export function LinhasForm({ linha, open: externalOpen, setOpen: setExternalOpen
                 : await createLinhaAction(formData);
 
             if (result.success) {
+
                 toast.success(result.message);
+
                 setOpen(false);
-                router.refresh();
+
+                startTransition(() => {
+                    router.refresh();
+                });
+
             } else {
                 toast.error(result.error);
             }
@@ -128,7 +135,7 @@ export function LinhasForm({ linha, open: externalOpen, setOpen: setExternalOpen
         <Dialog open={open} onOpenChange={setOpen}>
             {!isEditing && (
                 <DialogTrigger asChild>
-                    <Button className="bg-primary text-primary-foreground hover:bg-primary/80">
+                    <Button className="bg-primary text-primary-foreground hover:bg-primary">
                         <Plus className="h-5 w-5" />
                         Nova Linha
                     </Button>
