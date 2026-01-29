@@ -11,6 +11,7 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/s
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/themes/theme-toggle";
 import { logoutAction } from "@/actions/auth";
+import { LogoTitle } from "./logo-section";
 
 
 interface SidebarProps {
@@ -49,7 +50,7 @@ const NavContent = ({ onItemClick }: { onItemClick?: () => void }) => {
                                 isActive ? "bg-primary text-primary-foreground" : "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                             )}
                         >
-                            <menu.icon className="mr-2 h-5 w-5" />
+                            <menu.icon className="mr-4 h-5 w-5" />
                             <span>{menu.title}</span>
                         </Link>
                     )
@@ -72,42 +73,23 @@ const NavContent = ({ onItemClick }: { onItemClick?: () => void }) => {
 
     )
 }
-const LogoTitle = () => {
-    return (
-        <>
-            <div className="dark:hidden flex items-center justify-center">
-                <Image
-                    src="/assets/logos/logo-clean.png"
-                    alt="Logo IBEPLAS"
-                    width={160}
-                    height={60}
-                />
-            </div>
 
-            <div className="hidden dark:flex items-center justify-center">
-                <Image
-                    src="/assets/logos/logo-clean-branco.png"
-                    alt="Logo IBEPLAS"
-                    width={160}
-                    height={60}
-                />
-            </div>
-        </>
-    );
-}
 export function Sidebar({ usuarioLogado }: SidebarProps) {
 
     return (
         <aside className="hidden lg:flex flex-col min-h-screen w-64 bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
 
-            <div className="border-b border-sidebar-border p-3.5">
-                <LogoTitle />
+            <div className="p-6 flex flex-col gap-2">
+                <LogoTitle className="h-14" />
                 {usuarioLogado && (
-                    <p className="text-sm text-center mt-1 truncate">Olá, {usuarioLogado.nome}</p>
+                    <p className="text-sm text-center truncate">
+                        Olá, {usuarioLogado.nome}
+                    </p>
                 )}
             </div>
 
             <NavContent />
+
         </aside>
     );
 }
@@ -139,22 +121,27 @@ export function MobileSidebar({ usuarioLogado }: SidebarProps) {
                             <Menu className="h-6 w-6" />
                         </Button>
                     </SheetTrigger>
-                    <SheetContent side="left" className="p-0 w-64 border-r-app-border bg-sidebar text-sidebar-foreground">
+                    <SheetContent side="left" className="p-0 w-64 border-r-app-border bg-sidebar text-sidebar-foreground gap-2">
                         <SheetTitle>
-                            <div className="border-b border-sidebar-border p-6">
-                                <LogoTitle />
+                            <div className="mt-2 p-6 flex flex-col gap-2">
+                                <LogoTitle className="h-12" />
                                 {usuarioLogado && (
-                                    <p className="text-sm text-center mt-1 truncate">Olá, {usuarioLogado.nome}</p>
+                                    <p className="text-sm text-center truncate">
+                                        Olá, {usuarioLogado.nome}
+                                    </p>
                                 )}
                             </div>
                         </SheetTitle>
 
                         <NavContent onItemClick={() => setOpen(false)} />
+
                     </SheetContent>
                 </Sheet>
 
                 <div className="flex items-center gap-4">
-                    <h2><LogoTitle /></h2>
+                    <div className="min-w-32">
+                        <h2><LogoTitle className="h-12" /></h2>
+                    </div>
                     <ThemeToggle className="" />
                 </div>
 

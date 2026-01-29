@@ -4,13 +4,15 @@ import { DivSection } from "@/components/templates/sections/div-section";
 import { getToken } from "@/lib/auth";
 import { apiClient } from "@/lib/api";
 import { HeaderPageSection } from "@/components/templates/sections/header-page-section";
-import { LinhasForm } from "@/components/templates/forms/linhas-form";
+import { LinhasForm } from "@/components/linhas/linhas-form";
 import { Linha } from "@/models/linhas-types";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FilePenLine, Trash, ImageIcon } from "lucide-react";
+import { FilePenLine, Trash } from "lucide-react";
 import { env } from "@/config/env";
 import { ImageWithFallback, ImageFallBack } from "@/components/templates/ui/ImageWithFallback";
+import { LinhaDeleteButton } from "@/components/linhas/linhas-delete-dialog";
+import { LinhaEditButton } from "@/components/linhas/linha-edit-button";
 
 export const metadata: Metadata = {
     title: 'Linhas',
@@ -33,11 +35,11 @@ export default async function Page() {
             />
             {listData && listData.length > 0 ? (
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-4">
+                <div className="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-4">
 
                     {listData.map(item => (
 
-                        <Card key={item.id} className="group overflow-hidden pt-0 hover:shadow-lg transition-all duration-300">
+                        <Card key={item.id} className="group overflow-hidden py-0 hover:shadow-lg transition-all duration-300">
 
                             {item.imagemUrl ? (
                                 <div className="relative w-full aspect-video bg-foreground/35">
@@ -63,20 +65,10 @@ export default async function Page() {
                             </CardHeader>
 
                             <CardFooter className="flex gap-2 justify-end p-3 opacity-10 group-hover:opacity-100 transition-opacity duration-300 pt-1">
-                                <Button
-                                    variant="default"
-                                    title="Editar esse registro"
-                                    className="rounded-full h-7 w-7 p-0"
-                                >
-                                    <FilePenLine className="w-4 h-4" />
-                                </Button>
-                                <Button
-                                    variant="destructive"
-                                    title="Excluir esse registro"
-                                    className="rounded-full h-7 w-7 p-0"
-                                >
-                                    <Trash className="w-4 h-4" />
-                                </Button>
+
+                                <LinhaEditButton item={item} />
+                                <LinhaDeleteButton id={item.id} nome={item.nome} token={token} />
+
                             </CardFooter>
                         </Card>
                     ))}

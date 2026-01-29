@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { LoginForm } from "@/components/templates/forms/login-form";
+import { LoginForm } from "@/components/auth/login-form";
 import { DivSection } from "@/components/templates/sections/div-section";
 import { getUserFromToken } from "@/lib/auth";
 
