@@ -33,7 +33,12 @@ export function ThemeToggle({ className }: { className?: string }) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className={cn("z-50", className ?? "fixed top-5 right-6")}>
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className={cn("z-50", className ?? "fixed top-5 right-6")}
+                    title="Alterar o tema da aplicação."
+                >
                     {renderIcon()}
                     <span className="sr-only">Toggle theme</span>
                 </Button>
@@ -41,15 +46,15 @@ export function ThemeToggle({ className }: { className?: string }) {
             <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={() => setTheme("light")}>
                     <Sun className="h-5 w-5 me-2" />
-                    Claro
+                    Tema Claro
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("dark")}>
                     <Moon className="h-5 w-5 me-2" />
-                    Escuro
+                    Tema Escuro
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("system")}>
                     <Laptop className="h-5 w-5 me-2" />
-                    System
+                    Definido pelo Sistema
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

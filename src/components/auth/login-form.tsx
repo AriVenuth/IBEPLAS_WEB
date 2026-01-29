@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LogIn } from "lucide-react";
-import { CardForm } from "./card-form";
-import { ForgotPasswordDialog } from "./forgot-password-dialog";
+import { CardForm } from "@/components/templates/forms/card-form";
+import { ForgotPasswordDialog } from "@/components/auth/forgot-password-dialog";
 import { loginAction } from "@/actions/auth";
 import { toast } from "react-toastify";
 

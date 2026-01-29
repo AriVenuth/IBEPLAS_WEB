@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { createLinhaAction, updateLinhaAction } from "@/actions/linhas"; // Importando ambas as ações
+import { createSegmentoAction, updateSegmentoAction } from "@/actions/segmentos";
 
 import {
     Dialog,
@@ -20,47 +20,46 @@ import {
 import { toast } from "react-toastify";
 import { Spinner } from "@/components/ui/spinner";
 import { validateImage } from "@/lib/validate-image";
-import { Linha } from "@/models/linhas-types";
+import { Segmento } from "@/models/segmentos-types";
 import { env } from "@/config/env";
 
-interface LinhasFormProps {
-    linha?: Linha; // Se fornecido, entra em modo Edição
+interface FormProps {
+    model?: Segmento; // Se fornecido, entra em modo Edição
     open?: boolean;
     setOpen?: (open: boolean) => void;
 }
 
-export function LinhasForm({ linha, open: externalOpen, setOpen: setExternalOpen }: LinhasFormProps) {
+export function SegmentosForm({ model, open: externalOpen, setOpen: setExternalOpen }: FormProps) {
 
     const router = useRouter();
 
     const [internalOpen, setInternalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [imagePreview, setImagePreview] = useState<string | null>(
-        linha?.imagemUrl ? `${env.imagesAPIUrl}${linha.imagemUrl}` : null
+        model?.imagemUrl ? `${env.imagesAPIUrl}${model.imagemUrl}` : null
     );
     const [imageFile, setImageFile] = useState<File | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    // Sincronização de estado para Dialog
     const open = externalOpen ?? internalOpen;
     const setOpen = setExternalOpen ?? setInternalOpen;
-    const isEditing = !!linha;
+    const isEditing = !!model;
 
     useEffect(() => {
         if (open) {
-            setImagePreview(linha?.imagemUrl ? `${env.imagesAPIUrl}${linha.imagemUrl}` : null);
+            setImagePreview(model?.imagemUrl ? `${env.imagesAPIUrl}${model.imagemUrl}` : null);
             setImageFile(null);
-            setIsLoading(false); // Garante que o loading não venha travado de uma tentativa anterior
+            setIsLoading(false);
         }
-    }, [open, linha]);
+    }, [open, model]);
 
     const handdleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (!imagePreview) {
             const mensagemErro = isEditing
-                ? "A registro não pode ficar sem imagem. Selecione uma nova imagem ou cancele as alterações."
-                : "Para cadastrar um novo registo, é necessário selecionar uma imagem.";
+                ? "O registro não pode ficar sem imagem. Selecione uma nova imagem ou cancele as alterações."
+                : "Para cadastrar um novo registro, é necessário selecionar uma imagem.";
 
             toast.error(mensagemErro);
             setIsLoading(false);
@@ -77,8 +76,6 @@ export function LinhasForm({ linha, open: externalOpen, setOpen: setExternalOpen
             const formData = new FormData();
             formData.append("nome", nome);
 
-            // Só anexamos o arquivo se houver um NOVO arquivo selecionado.
-            // Se imageFile for null mas imagePreview existir, o backend manterá a imagem antiga.
             if (imageFile) {
                 const imageIsValid = await validateImage(imageFile, {
                     minW: 800, minH: 450, maxW: 1200, maxH: 720, maxMB: 5
@@ -93,8 +90,8 @@ export function LinhasForm({ linha, open: externalOpen, setOpen: setExternalOpen
             }
 
             const result = isEditing
-                ? await updateLinhaAction(String(linha.id), formData)
-                : await createLinhaAction(formData);
+                ? await updateSegmentoAction(String(model.id), formData)
+                : await createSegmentoAction(formData);
 
             if (result.success) {
                 toast.success(result.message);
@@ -130,7 +127,7 @@ export function LinhasForm({ linha, open: externalOpen, setOpen: setExternalOpen
                 <DialogTrigger asChild>
                     <Button className="bg-primary text-primary-foreground hover:bg-primary/80">
                         <Plus className="h-5 w-5" />
-                        Nova Linha
+                        Novo Segmento
                     </Button>
                 </DialogTrigger>
             )}
@@ -139,7 +136,7 @@ export function LinhasForm({ linha, open: externalOpen, setOpen: setExternalOpen
                 <DialogHeader>
                     <DialogTitle>{isEditing ? "Editar" : "Novo"}</DialogTitle>
                     <DialogDescription>
-                        {isEditing ? "Atualize as informações da linha selecionada." : "Adicione uma nova linha ao catalogo."}
+                        {isEditing ? "Atualize as informações do segmento selecionada." : "Adicione um novo segmento ao catalogo."}
                     </DialogDescription>
                 </DialogHeader>
 
@@ -150,8 +147,8 @@ export function LinhasForm({ linha, open: externalOpen, setOpen: setExternalOpen
                             id="nome"
                             name="nome"
                             required
-                            defaultValue={linha?.nome}
-                            placeholder="Nome da linha"
+                            defaultValue={model?.nome}
+                            placeholder="Nome do segmento"
                             className="bg-background text-foreground"
                         />
                     </div>

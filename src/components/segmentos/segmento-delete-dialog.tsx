@@ -18,13 +18,13 @@ import { toast } from "react-toastify"
 import { apiClient } from "@/lib/api"
 import { Spinner } from "@/components/ui/spinner"
 
-interface LinhaDeleteButtonProps {
+interface DeleteButtonProps {
     id: number
     nome: string
     token?: string // Recebido via prop do Server Component
 }
 
-export function LinhaDeleteButton({ id, nome, token }: LinhaDeleteButtonProps) {
+export function SegmentoDeleteButton({ id, nome, token }: DeleteButtonProps) {
 
     const [isDeleting, setIsDeleting] = useState(false)
     const router = useRouter()
@@ -35,12 +35,12 @@ export function LinhaDeleteButton({ id, nome, token }: LinhaDeleteButtonProps) {
 
         try {
 
-            await apiClient(`/linhas/${id}`, {
+            await apiClient(`/segmentos/${id}`, {
                 method: "DELETE",
                 token: token,
             })
 
-            toast.success(`Linha "${nome}" removida com sucesso.`)
+            toast.success(`Segmento "${nome}" removida com sucesso.`)
             router.refresh()
 
         } catch (error: any) {
@@ -72,7 +72,7 @@ export function LinhaDeleteButton({ id, nome, token }: LinhaDeleteButtonProps) {
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>Excluir</AlertDialogTitle>
-                    <p className="text-sm">Deseja realmente excluir a linha <strong>{nome}</strong>?</p>
+                    <p className="text-sm">Deseja realmente excluir o segmento <strong>{nome}</strong>?</p>
                     <p className="text-sm text-destructive">Esta ação é irreversível e removerá os dados do servidor.</p>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
